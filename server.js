@@ -125,7 +125,6 @@
 
 
 
-
 // server.js
 
 const express = require('express');
@@ -138,12 +137,13 @@ require('dotenv').config(); // لتحميل متغيرات البيئة من م�
 const nextApp1 = next({ dev: false, dir: path.join(__dirname, '../base-script-1') });
 const handle1 = nextApp1.getRequestHandler();
 
-const nextApp2 = next({ dev: false, dir: path.join(__dirname, '../RTL-Version-2') });
-const handle2 = nextApp2.getRequestHandler();
+// تعليق مشروع RTL-Version-2 مؤقتاً
+// const nextApp2 = next({ dev: false, dir: path.join(__dirname, '../RTL-Version-2') });
+// const handle2 = nextApp2.getRequestHandler();
 
 Promise.all([
-  nextApp1.prepare(),
-  nextApp2.prepare()
+  nextApp1.prepare()
+  // nextApp2.prepare() // معلق مؤقتاً
 ])
   .then(() => {
     const server = express();
@@ -178,9 +178,11 @@ Promise.all([
 
       if (projectDir === 'base-script-1') {
         return handle1(req, res);
-      } else if (projectDir === 'RTL-Version-2') {
-        return handle2(req, res);
-      } else {
+      }
+      // else if (projectDir === 'RTL-Version-2') {
+      //   return handle2(req, res);
+      // }
+      else {
         console.warn(`⚠️ No matching script found for "${hostname}".`);
         return res.status(404).send(`<h1>الرابط "${hostname}" غير مسجل أو يوجد خطأ في API</h1>`);
       }
